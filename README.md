@@ -7,8 +7,6 @@
 
 - O sistema também deve permitir a busca de artistas por nome.
 - O sistema também deve ser capaz de exibir os artistas cadastrados.
-- Dizer também se o aluno está aprovado (PASS) ou não (FAILED).
-- Em caso negativo, quantos pontos faltam para o aluno obter o mínimo para ser aprovado (que 60% das notas).
 
 Use a criatividade para imprimir os dados no console, crie métodos para isso e imprima um menu para que o usuário possa:
 - Cadastrar o artista
