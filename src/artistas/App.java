@@ -14,19 +14,21 @@ public class App {
 
         Scanner scan = new Scanner(System.in); // Importa classe scanner (input)
 
-        // Instancia as classes "Commons" (para métodos "limparTela()" e "aguardaInput()") e "Agenda" (demais métodos)
+        // Instancia as classes "Commons" (para métodos "limparTela()" e
+        // "aguardaInput()") e "Agenda" (demais métodos)
         Commons com = new Commons();
         Artistas art = new Artistas();
 
-        // Instancia variáveis de controle (opção do menu e posPessoa para execução do método "buscaPessoa()")
+        // Instancia variáveis de controle (opção do menu e posPessoa para execução do
+        // método "buscaPessoa()")
         int opcao = 0;
 
-        //inicialização
+        // inicialização
         System.out.println("Insira o volume máximo de artistas:");
         maxArtistas = scan.nextInt();
         System.out.println("Insira o volume máximo de álbuns:");
         maxAlbuns = scan.nextInt();
-        
+
         art.inicializa(maxArtistas, maxAlbuns);
 
         // Início do menu de interação
@@ -37,7 +39,7 @@ public class App {
             System.out.println(
                     "\n1 - Cadastrar artista\n2 - Visualizar artista\n3 - Remover artista\n4 - Cadastrar álbum\n5 - Visualizar álbum\n6 - Listar todos artistas\n7 - Listar todos álbuns\n8 - Sair");
             opcao = scan.nextInt();
-            if (opcao < 0 || opcao > 8){
+            if (opcao < 0 || opcao > 8) {
                 System.out.println("Opção inválida.");
                 opcao = 7;
             }
@@ -65,7 +67,7 @@ public class App {
                     com.limparTela();
                     com.aguardaInput();
                     break;
-                    
+
                 case 3:
                     com.limparTela();
                     System.out.println("| REMOVER ARTISTA* |");
@@ -109,6 +111,9 @@ public class App {
                     break;
 
                 case 7:
+                    com.limparTela();
+                    System.out.println("| LISTAR TODOS ÁLBUNS |");
+                    art.listarAlbuns();
                     break;
 
                 case 8:

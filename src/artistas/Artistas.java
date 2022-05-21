@@ -1,31 +1,23 @@
 package artistas;
 
-import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.ArrayUtils;
 
 public class Artistas {
 
-    Commons com = new Commons(); // Importa classe "Commons"
+    Commons com = new Commons();
 
-    private int maxArtistas; // Define o máximo
-    private int maxAlbuns; // Define o máximo
-
-    // VARIÁVEIS
+    private int maxArtistas;
+    private int maxAlbuns;
     private String[] artistas;
     private String[][] albuns;
-    int posicao; // Variável para armazenar a posição do array
-    int volArtistas = 0; // Quantidade de artistas iniciais
+    int posicao; 
+    int volArtistas = 0;
     int volAlbuns = 0;
 
-    // METODOS
-    public void inicializa(int maxArtistas, int maxAlbuns) throws InterruptedException{
-        
+    public void inicializa(int maxArtistas, int maxAlbuns) throws InterruptedException {
+
         com.limparTela();
         this.maxArtistas = maxArtistas;
         this.maxAlbuns = maxAlbuns;
@@ -40,7 +32,6 @@ public class Artistas {
         com.aguardaInput();
     }
 
-    // Armazena um artista no sistema
     public void armazenarArtista(String nome) {
         if (this.volArtistas >= this.maxArtistas) {
             com.limparTela();
@@ -51,23 +42,23 @@ public class Artistas {
             this.artistas[this.volArtistas] = nome;
             this.volArtistas++;
             com.limparTela();
-            System.out.println("Cadastro do artista " +  this.artistas[this.volArtistas -1] + " foi criado com sucesso!");
+            System.out
+                    .println("Cadastro do artista " + this.artistas[this.volArtistas - 1] + " foi criado com sucesso!");
             com.aguardaInput();
         }
     }
 
-    // Remove um artista do sistema
     public void removeArtista(String nome) {
         int posicao = this.buscaArtista(nome);
-        if (this.artistas == null || posicao < 0 || posicao >= this.artistas.length){
+        if (this.artistas == null || posicao < 0 || posicao >= this.artistas.length) {
             com.limparTela();
             System.out.println("O artista não foi encontrado.");
             com.aguardaInput();
         } else {
             com.limparTela();
             this.removeAlbuns(nome);
-            String[] novoArtistas = new String [this.artistas.length];
-            for (int i = 0, k = 0; i < this.artistas.length; i++){
+            String[] novoArtistas = new String[this.artistas.length];
+            for (int i = 0, k = 0; i < this.artistas.length; i++) {
                 if (i == posicao) {
                     continue;
                 }
@@ -75,50 +66,47 @@ public class Artistas {
             }
             this.artistas = novoArtistas;
             this.volArtistas--;
+            this.volAlbuns = this.volAlbuns - this.checarQuantidadeAlbuns(posicao);
             System.out.println("Artista e seus álbuns foram removidos com sucesso!");
             com.aguardaInput();
         }
-        /* System.out.println("Array de Artistas: " + Arrays.toString(this.artistas));
-        System.out.println("Array de Albuns: " + Arrays.deepToString(this.albuns)); */
     }
 
     public void removeAlbuns(String nome) {
         int posicao = this.buscaArtista(nome);
-        if (this.artistas == null || posicao < 0 || posicao >= this.artistas.length){
+        if (this.artistas == null || posicao < 0 || posicao >= this.artistas.length) {
             com.limparTela();
             System.out.println("O álbum não foi encontrado.");
             com.aguardaInput();
         } else {
-            List <String[]> novoAlbuns = new ArrayList<String[]>(Arrays.asList(this.albuns));
+            List<String[]> novoAlbuns = new ArrayList<String[]>(Arrays.asList(this.albuns));
             novoAlbuns.remove(posicao);
-            this.albuns = novoAlbuns.toArray(new String[][]{});
+            this.albuns = novoAlbuns.toArray(new String[][] {});
         }
     }
 
-    // Busca um contato na agenda através do nome
     public int buscaArtista(String nome) {
         int posicao = -1;
         for (int i = 0; i < this.volArtistas; i++) {
-            if (Arrays.asList(this.artistas[i]).contains(nome)){
+            if (Arrays.asList(this.artistas[i]).contains(nome)) {
                 posicao = i;
             }
         }
-        return posicao; //se não encontrar nenhum resultado, retorna -1
+        return posicao;
     }
 
-    // Busca um contato na agenda através do nome
     public int[] buscaAlbum(String nome) {
         int posicaoAlbum = -1;
         int posicaoArtista = -1;
         for (int i = 0; i < this.maxArtistas; i++) {
-            for(int j = 0; j < this.maxAlbuns; j++){
+            for (int j = 0; j < this.maxAlbuns; j++) {
                 if (Arrays.asList(this.albuns[i][j]).contains(nome)) {
                     posicaoAlbum = j;
                     posicaoArtista = i;
                 }
-            }    
+            }
         }
-        return new int[] {posicaoAlbum, posicaoArtista};
+        return new int[] { posicaoAlbum, posicaoArtista };
     }
 
     public void listarArtistas() {
@@ -129,30 +117,7 @@ public class Artistas {
             for (int i = 0; i < this.artistas.length; i++) {
                 if (this.artistas[i] != null) {
                     String artista = this.artistas[i];
-                    System.out.println("\nNome: " + artista);
-                }
-            }
-            System.out.println("\nExistem " + this.volArtistas + " artistas cadastrados no sistema.");
-        }
-        com.aguardaInput();
-    }
-
-    // Mostra a agenda com todos seus contatos
-    public void imprimeArtistas() {
-        System.out.println("| Cadastro de Artistas |\n");
-        if (this.volArtistas == 0) {
-            System.out.println("\nNão há artistas cadastrados!\n");
-        } else {
-            for (int i = 0; i < this.artistas.length; i++) {
-                if (this.artistas[i] != null) {
-                    String artista = this.artistas[i];
-                    System.out.println("\nNome: " + artista);
-                    System.out.println("Álbuns do artista: ");
-                    for (int j = 0; j < this.maxAlbuns; j++ ){
-                        if (this.albuns[i][j] != null){
-                            System.out.println(this.albuns[i][j]);
-                        }
-                    }
+                    System.out.println(i + 1 + ") Artista/Banda: " + artista);
                 }
             }
             System.out.println("\nExistem " + this.volArtistas + " artistas cadastrados no sistema.");
@@ -166,36 +131,35 @@ public class Artistas {
         } else {
             for (int i = 0; i < this.artistas.length; i++) {
                 if (this.artistas[i] != null) {
-                    String artista = this.artistas[i];             
-                    System.out.println("Álbuns do artista: ");
-                    for (int j = 0; j < this.maxAlbuns; j++ ){
-                        if (this.albuns[i][j] != null){
-                            System.out.println("Álbum: " + this.albuns[i][j]);
-                            System.out.println("\nNome: " + artista);
+                    String artista = this.artistas[i];
+                    for (int j = 0; j < this.albuns.length; j++) {
+                        if (this.albuns[i][j] != null) {
+                            String album = this.albuns[i][j];
+                            System.out.println("Álbum: " + album);
+                            System.out.println("Artista: " + artista + "\n");
                         }
                     }
                 }
             }
-            System.out.println("\nExistem " + this.volArtistas + " artistas cadastrados no sistema.");
+            System.out.println("\nExistem " + this.volAlbuns + " álbuns cadastrados no sistema.");
         }
         com.aguardaInput();
     }
 
-    // Mostra um contato com base em sua posição na agenda
     public void imprimeArtista(int index) {
         if (!(index >= 0 && index < this.volArtistas)) {
             com.limparTela();
             System.out.println("Artista não encontrado.");
-            com.aguardaInput(); 
+            com.aguardaInput();
         } else {
             com.limparTela();
             System.out.println("Artista/banda: " + this.artistas[index]);
-            for (int i = 0; i < this.maxAlbuns; i++ ){
-                if (this.albuns[index][i] != null){
+            for (int i = 0; i < this.maxAlbuns; i++) {
+                if (this.albuns[index][i] != null) {
                     System.out.println(this.albuns[index][i]);
                 }
             }
-            com.aguardaInput(); 
+            com.aguardaInput();
         }
     }
 
@@ -203,27 +167,26 @@ public class Artistas {
         if (!(posAlbum >= 0 && posAlbum < this.volAlbuns)) {
             com.limparTela();
             System.out.println("Álbum não encontrado.");
-            com.aguardaInput(); 
+            com.aguardaInput();
         } else {
             com.limparTela();
-            System.out.println("Álbum: " + this.albuns[posArtista][posAlbum]); 
+            System.out.println("Álbum: " + this.albuns[posArtista][posAlbum]);
             System.out.println("Artista/banda: " + this.artistas[posArtista]);
-            com.aguardaInput(); 
+            com.aguardaInput();
         }
     }
 
-    public int checarQuantidadeAlbuns(int posicaoArtista){
+    public int checarQuantidadeAlbuns(int posicaoArtista) {
         int contagemAlbuns = 0;
-        for (int i = 0; i < this.maxAlbuns; i++){
-            if (this.albuns[posicaoArtista][i] != null){
+        for (int i = 0; i < this.albuns.length; i++) {
+            if (this.albuns[posicaoArtista][i] != null) {
                 contagemAlbuns++;
             }
         }
         return contagemAlbuns;
     }
 
-    // Armazena um artista no sistema
-    public void armazenarAlbum(int posicaoArtista, String nomeAlbum) { 
+    public void armazenarAlbum(int posicaoArtista, String nomeAlbum) {
         if (this.volAlbuns >= this.maxAlbuns) {
             com.limparTela();
             System.out.println("Não é possível adicionar mais de " + this.maxAlbuns + " álbuns no sistema.");
@@ -232,14 +195,38 @@ public class Artistas {
         } else if (posicaoArtista < 0) {
             com.limparTela();
             System.out.println("Artista não encontrado.");
-            com.aguardaInput(); 
+            com.aguardaInput();
         } else {
             int contagemAlbuns = this.checarQuantidadeAlbuns(posicaoArtista);
             this.albuns[posicaoArtista][contagemAlbuns] = nomeAlbum;
             com.limparTela();
-            System.out.println("Cadastro do álbum " +  this.albuns[posicaoArtista][contagemAlbuns] + " foi criado com sucesso!");
+            System.out.println(
+                    "Cadastro do álbum " + this.albuns[posicaoArtista][contagemAlbuns] + " foi criado com sucesso!");
             this.volAlbuns++;
             com.aguardaInput();
         }
+    }
+
+    // DEBUG METHOD
+    public void listarArtistaEalbuns() {
+        System.out.println("| Cadastro de Artistas |\n");
+        if (this.volArtistas == 0) {
+            System.out.println("\nNão há artistas cadastrados!\n");
+        } else {
+            for (int i = 0; i < this.artistas.length; i++) {
+                if (this.artistas[i] != null) {
+                    String artista = this.artistas[i];
+                    System.out.println("\nNome: " + artista);
+                    System.out.println("Álbuns do artista: ");
+                    for (int j = 0; j < this.maxAlbuns; j++) {
+                        if (this.albuns[i][j] != null) {
+                            System.out.println(this.albuns[i][j]);
+                        }
+                    }
+                }
+            }
+            System.out.println("\nExistem " + this.volArtistas + " artistas cadastrados no sistema.");
+        }
+        com.aguardaInput();
     }
 }
