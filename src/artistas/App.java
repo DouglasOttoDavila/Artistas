@@ -19,8 +19,7 @@ public class App {
         Commons com = new Commons();
         Artistas art = new Artistas();
 
-        // Instancia variáveis de controle (opção do menu e posPessoa para execução do
-        // método "buscaPessoa()")
+        // Instancia variável de controle
         int opcao = 0;
 
         // inicialização
@@ -36,12 +35,13 @@ public class App {
             com.limparTela();
             System.out.println("| Sistema de Controle Musical v1.0 |\n");
             System.out.println("Selecione a operação desejada:");
-            System.out.println(
-                    "\n1 - Cadastrar artista\n2 - Visualizar artista\n3 - Remover artista\n4 - Cadastrar álbum\n5 - Visualizar álbum\n6 - Listar todos artistas\n7 - Listar todos álbuns\n8 - Sair");
+            System.out.println("\n1 - Cadastrar artista\n2 - Visualizar artista\n3 - Remover artista\n4 - Remover todos artista\n5 - Cadastrar álbum\n6 - Visualizar álbum\n7 - Listar todos artistas\n8 - Listar todos álbuns\n9 - Sair");
+            
             opcao = scan.nextInt();
-            if (opcao < 0 || opcao > 8) {
+            
+            if (opcao <= 0 || opcao > 9) {
                 System.out.println("Opção inválida.");
-                opcao = 7;
+                opcao = 0;
             }
 
             // Opções do menu de interação
@@ -81,6 +81,14 @@ public class App {
 
                 case 4:
                     com.limparTela();
+                    System.out.println("| REMOVER TODOS ARTISTAS* |");
+                    System.out.println("| Aviso: Esta operação irá remover também todos os álbuns do artista/banda. |");
+                    com.aguardaInput();
+                    art.removeTodosArtistas();
+                    break;
+
+                case 5:
+                    com.limparTela();
                     System.out.println("| CADASTRAR ÁLBUM |");
                     System.out.println("Informe o nome do artista: ");
                     scan.nextLine();
@@ -91,7 +99,7 @@ public class App {
                     art.armazenarAlbum(posicao, album);
                     break;
 
-                case 5:
+                case 6:
                     com.limparTela();
                     System.out.println("| VISUALIZAR ÁLBUM |");
                     System.out.println("Informe o nome do álbum: ");
@@ -103,20 +111,20 @@ public class App {
                     com.aguardaInput();
                     break;
 
-                case 6:
+                case 7:
                     com.limparTela();
                     System.out.println("| LISTAR TODOS ARTISTAS |");
                     art.listarArtistas();
                     com.aguardaInput();
                     break;
 
-                case 7:
+                case 8:
                     com.limparTela();
                     System.out.println("| LISTAR TODOS ÁLBUNS |");
                     art.listarAlbuns();
                     break;
 
-                case 8:
+                case 9:
                     opcao = -1;
                     break;
             }

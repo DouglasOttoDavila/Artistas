@@ -3,6 +3,7 @@ package artistas;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Artistas {
 
@@ -72,6 +73,34 @@ public class Artistas {
         }
     }
 
+    public void removeTodosArtistas() {
+        com.limparTela();
+        if (this.volArtistas <= 0){
+            com.limparTela();
+            System.out.println("Nenhum artista a ser removido...");
+            com.aguardaInput();
+        } else {
+            this.removeTodosAlbuns();
+            List<String> novoArtistas = new ArrayList<String>(Arrays.asList(this.artistas));
+            for (int i = 0; i < novoArtistas.size(); i++) {
+                novoArtistas.remove(i);
+            }
+            this.artistas = novoArtistas.toArray(new String[] {});
+            this.volArtistas = 0;
+            System.out.println("Todos artistas e seus álbuns foram removidos com sucesso!");
+            com.aguardaInput();
+        }
+    }
+
+    public void removeTodosAlbuns() {
+        if (this.volAlbuns > 0) {
+            List<List<String>> novoAlbuns = Arrays.stream(this.albuns).map(Arrays::asList).collect(Collectors.toList());
+            novoAlbuns.clear();
+            this.albuns = novoAlbuns.toArray(new String[][] {});
+            this.volAlbuns = 0;
+        }
+    }
+
     public void removeAlbuns(String nome) {
         int posicao = this.buscaArtista(nome);
         if (this.artistas == null || posicao < 0 || posicao >= this.artistas.length) {
@@ -87,7 +116,7 @@ public class Artistas {
 
     public int buscaArtista(String nome) {
         int posicao = -1;
-        for (int i = 0; i < this.volArtistas; i++) {
+        for (int i = 0; i < this.artistas.length; i++) {
             if (Arrays.asList(this.artistas[i]).contains(nome)) {
                 posicao = i;
             }
