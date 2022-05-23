@@ -13,7 +13,7 @@ public class Artistas {
     private int maxAlbuns;
     private String[] artistas;
     private String[][] albuns;
-    int posicao; 
+    int posicao;
     int volArtistas = 0;
     int volAlbuns = 0;
 
@@ -67,7 +67,6 @@ public class Artistas {
             }
             this.artistas = novoArtistas;
             this.volArtistas--;
-            this.volAlbuns = this.volAlbuns - this.checarQuantidadeAlbuns(posicao);
             System.out.println("Artista e seus álbuns foram removidos com sucesso!");
             com.aguardaInput();
         }
@@ -75,7 +74,7 @@ public class Artistas {
 
     public void removeTodosArtistas() {
         com.limparTela();
-        if (this.volArtistas <= 0){
+        if (this.volArtistas <= 0) {
             com.limparTela();
             System.out.println("Nenhum artista a ser removido...");
             com.aguardaInput();
@@ -108,9 +107,13 @@ public class Artistas {
             System.out.println("O álbum não foi encontrado.");
             com.aguardaInput();
         } else {
+            int quantidadeAlbuns = this.checarQuantidadeAlbuns(posicao);
             List<String[]> novoAlbuns = new ArrayList<String[]>(Arrays.asList(this.albuns));
             novoAlbuns.remove(posicao);
             this.albuns = novoAlbuns.toArray(new String[][] {});
+            for (int i = 0; i < quantidadeAlbuns; i++) {
+                this.volAlbuns--;
+            }
         }
     }
 
