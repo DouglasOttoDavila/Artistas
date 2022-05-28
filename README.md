@@ -1,7 +1,7 @@
 ## Atividade de Programação Orientada a Objeto (POO)
 
 - UniRitter
-- Professor Victor
+- Professor Vitor
 
 ## (2,0) Um cliente deseja-se construir um sistema para manter um registro de artistas musicais os quais poderão ser consultadas pelo sistema.
 
